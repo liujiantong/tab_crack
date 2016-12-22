@@ -19,7 +19,7 @@ app.secret_key = '380fec53-b210-4864-925f-6b0da3b56268'
 @app.route('/')
 def index():
     if 'token' in session:
-        return render_template('tab_report.html')
+        return render_template('tab_report.html', token=session['token'])
     return redirect(url_for('login'))
 
 
@@ -41,7 +41,7 @@ def login():
         return render_template('login.html')
     else:
         if 'token' in session:
-            return render_template('tab_report.html')
+            return render_template('tab_report.html', token=session['token'])
     return render_template('login.html')
 
 
@@ -67,7 +67,7 @@ def hello():
     session = requests.Session()
     xsrf_token, workgroup_session_id = tab_api.tab_login(session)
 
-    resp = make_response(render_template('tab_report.html'))
+    resp = make_response(render_template('tab_report.html', token='88888'))
     resp.set_cookie('XSRF-TOKEN', xsrf_token, domain=IKANG_DOMAIN)
     resp.set_cookie('workgroup_session_id', workgroup_session_id, domain=IKANG_DOMAIN)
     return resp
