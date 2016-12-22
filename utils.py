@@ -36,6 +36,7 @@ def email_login(email, passwd, logger=None):
         return False
 
     code, _ = smtp.login(email, passwd)
+    smtp.close()
     # print 'login code:', code
     return int(code/100) == 2
 
