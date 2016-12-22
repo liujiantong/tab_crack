@@ -31,8 +31,10 @@ def login():
 
         if login_ok:
             token = get_token(email)
-            session['token'] = token
+            if token is None:
+                return render_template('login.html')
 
+            session['token'] = token
             resp = make_response(render_template('tab_report_zaixing.html', token=token))
             resp.set_cookie('XSRF-TOKEN', xsrf_token, domain=IKANG_DOMAIN)
             resp.set_cookie('workgroup_session_id', workgroup_session_id, domain=IKANG_DOMAIN)
@@ -59,6 +61,7 @@ def internal_server_error(e):
 
 def get_token(email):
     # TODO: get token from mysql db
+    # return utils.token_by_email(email)
     return '888888'
 
 """
