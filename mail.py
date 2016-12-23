@@ -9,7 +9,7 @@ import conf
 def email_login(email, passwd):
     logging.debug('login by email:%s', email)
     try:
-        smtp = smtplib.SMTP(conf.mail_server)
+        smtp = smtplib.SMTP(conf.mail_server, timeout=5)
         code, _ = smtp.login(email, passwd)
         smtp.quit()
     except Exception as e:
