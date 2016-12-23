@@ -21,6 +21,7 @@ def token_by_email1(email):
         result = cursor.fetchone()
         return None if result is None else result[0]
     finally:
+        cursor.close()
         cnx.close()
 '''
 
@@ -35,6 +36,7 @@ def token_by_email(cnx_pool, email):
         result = cursor.fetchone()
         return None if result is None else result[0]
     finally:
+        cursor.close()
         cnx.close()
 
 
