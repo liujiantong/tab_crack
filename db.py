@@ -1,6 +1,7 @@
 #!/home/tao.liu1/anaconda/bin/python
 # coding: utf8
 
+import logging
 import mysql.connector
 import conf
 
@@ -23,6 +24,7 @@ def token_by_email(email):
 
 if __name__ == '__main__':
     import time
+    logging.basicConfig(level=logging.DEBUG)
     st = time.time()
     assert token_by_email('sandy.cheng@ikang.com') == 'YR2Sn6QLqGkb'
     print 'I took %d ms to login' % int((time.time()-st) * 1000)
