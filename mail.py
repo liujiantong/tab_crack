@@ -27,6 +27,8 @@ def email_login(email, passwd):
 
     code, _ = smtp.login(email, passwd)
     smtp.close()
+    logging.debug('smtp respone code:%d', code)
+
     return int(code/100) == 2
 
 
