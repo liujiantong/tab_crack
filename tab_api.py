@@ -9,12 +9,11 @@ import binascii
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
 
+import conf
+
 
 tab_server_url = "https://dashboard.health.ikang.com"
 vizportal_api_url = "/vizportal/api/web/v1/"
-
-tab_username = "admin"
-tab_password = 'p0o9i8u7'
 
 
 def _encode_for_display(text):
@@ -104,7 +103,7 @@ def update_extract_schedule(session, task_id, schedule_id, xsrf_token):
     return resp
 
 
-def tab_login(session, tab_user=tab_username, tab_passwd=tab_password):
+def tab_login(session, tab_user=conf.tab_username, tab_passwd=conf.tab_password):
     # Generate a pubilc key that will be used to encrypt the user's password
     public_key = generate_public_key(session)
     keyId = public_key["keyId"]

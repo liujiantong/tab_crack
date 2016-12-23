@@ -8,3 +8,6 @@ mysql_url = '192.168.0.173'
 mysql_user = 'u_user_view'
 mysql_passwd = 'Fb7HM&TZ%Npd'
 mysql_db = 'etl_ctl'
+
+tab_username = "common_user"
+tab_password = 'commonpass'
