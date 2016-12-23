@@ -6,6 +6,8 @@ from flask import Flask, make_response, render_template, escape
 from flask import session, request, redirect, url_for
 # from flask_sslify import SSLify
 
+from mysql.connector.pooling import MySQLConnectionPool
+
 import os
 from datetime import datetime
 import logging
@@ -38,7 +40,7 @@ def login():
         logging.debug('email:%s login: %s', email, login_ok)
 
         if login_ok:
-            token = db.token_by_email(email)
+            token = db.token_by_email(cnx_pool, email)
             logging.debug('email:%s token:%s', email, token)
 
             if token is None:
@@ -107,5 +109,6 @@ def init_logger():
 
 if __name__ == "__main__":
     init_logger()
+    cnx_pool = MySQLConnectionPool(pool_name="tab_pool", pool_size=conf.mysql_pool_size, **conf.dbconfig)
     app.run(host='0.0.0.0', debug=False)
 
