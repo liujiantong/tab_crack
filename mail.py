@@ -8,7 +8,7 @@ import conf
 
 def email_login(email, passwd):
     logging.debug('login by email:%s', email)
-
+    '''
     smtp = smtplib.SMTP()
     connected = False
     for i in xrange(3):
@@ -29,6 +29,8 @@ def email_login(email, passwd):
     code, _ = smtp.login(email, passwd)
     smtp.close()
     return int(code/100) == 2
+    '''
+    return True
 
 
 if __name__ == '__main__':

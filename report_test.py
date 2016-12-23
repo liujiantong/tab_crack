@@ -4,15 +4,14 @@
 import requests
 from flask import Flask, make_response, render_template, escape
 from flask import session, request, redirect, url_for
-# from flask_sslify import SSLify
 
 import os
-from datetime import datetime
 import logging
+from datetime import datetime
 
-import tab_api
 import mail
 import db
+import tab_api
 import conf
 
 
@@ -20,15 +19,37 @@ app = Flask(__name__)
 # sslify = SSLify(app)
 app.secret_key = '380fec53-b210-4864-925f-6b0da3b56268'
 
-
-@app.route('/')
-def index():
-    if 'token' in session:
-        return render_template('tab_report_zaixing.html', token=session['token'])
-    return redirect(('login'))
+# report_url = 'https://dashboard.health.ikang.com/views/_6/sheet0?:embed=y&:showShareOptions=false&TOKEN=YR2Sn6QLqGkb'
 
 
-@app.route('/login', methods=['GET', 'POST'])
+def init_logger():
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+
+    work_dir, _ = os.path.split(os.path.abspath(__file__))
+    log_dir = work_dir + '/logs'
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+
+    console_handler = logging.StreamHandler()
+    file_suffix = datetime.strftime(datetime.today(), '%Y%m%d')
+    logfile_name = '%s/%s.%s' % (log_dir, 'tab_report.log', file_suffix)
+    file_handler = logging.FileHandler(logfile_name)
+
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    console_handler.setFormatter(formatter)
+    file_handler.setFormatter(formatter)
+
+    logger.addHandler(console_handler)
+    logger.addHandler(file_handler)
+
+
+@app.route('/report_zx')
+def report_zx():
+    return render_template('tab_report_zaixing.html', token=session['token'])
+
+
+@app.route('/signon', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         session.pop('token', None)
@@ -61,48 +82,9 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/logout')
-def logout():
-    # remove the username from the session if it's there
-    session.pop('token', None)
-    return redirect(url_for('login'))
-
-
 @app.route('/alive')
 def alive():
     return 'ok'
-
-
-@app.errorhandler(500)
-def internal_server_error(e):
-    return render_template('50x.html'), 500
-
-
-@app.route('/report_zx')
-def report_zx():
-    return render_template('tab_report_zaixing.html', token=session['token'])
-
-
-def init_logger():
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
-
-    work_dir, _ = os.path.split(os.path.abspath(__file__))
-    log_dir = work_dir + '/logs'
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir)
-
-    console_handler = logging.StreamHandler()
-    file_suffix = datetime.strftime(datetime.today(), '%Y%m%d')
-    logfile_name = '%s/%s.%s' % (log_dir, 'tab_report.log', file_suffix)
-    file_handler = logging.FileHandler(logfile_name)
-
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    console_handler.setFormatter(formatter)
-    file_handler.setFormatter(formatter)
-
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
 
 
 if __name__ == "__main__":

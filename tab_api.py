@@ -3,6 +3,7 @@
 
 import requests
 import json
+import logging
 
 import binascii
 from Crypto.PublicKey import RSA
@@ -107,7 +108,7 @@ def tab_login(session, tab_user=tab_username, tab_passwd=tab_password):
     # Generate a pubilc key that will be used to encrypt the user's password
     public_key = generate_public_key(session)
     keyId = public_key["keyId"]
-    print 'keyId:', keyId
+    logging.debug('keyId: %s', keyId)
 
     # Encrypt the password used to login
     encrypted_passwd = asymmetric_encrypt(tab_passwd, public_key)
