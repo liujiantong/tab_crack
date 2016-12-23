@@ -11,10 +11,11 @@ def email_login(email, passwd):
     try:
         smtp = smtplib.SMTP(conf.mail_server, timeout=5)
         code, _ = smtp.login(email, passwd)
-        smtp.quit()
     except Exception as e:
         logging.error('email_login error: %s', e)
         return False
+    finally:
+        smtp.quit()
 
     logging.debug('smtp response code:%d', code)
     return int(code/100) == 2
