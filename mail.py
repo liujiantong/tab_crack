@@ -10,6 +10,19 @@ import conf
 mailbox_login_timeout = 5
 
 
+def connect_mailbox():
+    try:
+        smtp = smtplib.SMTP(conf.mail_server, timeout=mailbox_login_timeout)
+    except Exception as e:
+        logging.error('connect_mailbox error: %s', e)
+        return False
+    finally:
+        smtp.quit()
+
+    logging.info('connected to `%s`', conf.mail_server)
+    return True
+
+
 def smtp_login(email, passwd):
     logging.debug('login by email:%s', email)
     try:

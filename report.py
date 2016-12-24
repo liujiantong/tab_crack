@@ -109,6 +109,8 @@ def init_logger():
 
 if __name__ == "__main__":
     init_logger()
+    mail.connect_mailbox()
     cnx_pool = MySQLConnectionPool(pool_name="tab_pool", pool_size=conf.mysql_pool_size, **conf.dbconfig)
+    logging.info('connected to mysql db:%s', conf.dbconfig['host'])
     app.run(host='0.0.0.0', debug=False)
 
