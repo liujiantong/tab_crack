@@ -3,16 +3,20 @@
 
 import logging
 import smtplib
+import poplib
 import conf
 
 
-def email_login(email, passwd):
+mailbox_login_timeout = 5
+
+
+def smtp_login(email, passwd):
     logging.debug('login by email:%s', email)
     try:
-        smtp = smtplib.SMTP(conf.mail_server, timeout=5)
+        smtp = smtplib.SMTP(conf.mail_server, timeout=mailbox_login_timeout)
         code, _ = smtp.login(email, passwd)
     except Exception as e:
-        logging.error('email_login error: %s', e)
+        logging.error('smtp_login error: %s', e)
         return False
     finally:
         smtp.quit()
@@ -21,10 +25,27 @@ def email_login(email, passwd):
     return int(code/100) == 2
 
 
+def pop3_login(email, passwd):
+    logging.debug('login by email:%s', email)
+    try:
+        pop3 = poplib.POP3(conf.mail_server, timeout=mailbox_login_timeout)
+        pop3.user(email)
+        pass_resp = pop3.pass_(passwd)
+    except Exception as e:
+        logging.error('pop3_login error: %s', e)
+        return False
+    finally:
+        pop3.quit()
+
+    logging.debug('pop3 response code:%s', pass_resp)
+    return True
+
+
 if __name__ == '__main__':
     import time
     logging.basicConfig(level=logging.DEBUG)
     st = time.time()
-    assert email_login("auth@ikang.com", "Ikang@$1jk!")
+    # assert smtp_login("auth@ikang.com", "Ikang@$1jk!")
+    assert pop3_login("auth@ikang.com", "Ikang@$1jk!")
     print 'I took %d ms to login' % int((time.time()-st) * 1000)
 

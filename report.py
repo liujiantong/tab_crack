@@ -36,7 +36,7 @@ def login():
         session.pop('token', None)
 
         email, password = request.form['email'], request.form['password']
-        login_ok = mail.email_login(email, password)
+        login_ok = mail.smtp_login(email, password)
         logging.debug('email:%s login: %s', email, login_ok)
 
         if login_ok:
