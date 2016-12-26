@@ -7,7 +7,7 @@ import poplib
 import conf
 
 
-mailbox_login_timeout = 5
+mailbox_login_timeout = 3
 
 
 def connect_mailbox():

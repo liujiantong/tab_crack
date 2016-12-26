@@ -26,5 +26,11 @@
 
 ## 启动
 ```
-python report.py or gunicorn -w 2 -b :5000 report:app
+python report.py or gunicorn -w 4 -b :5000 report:app
 ```
+
+## 启动 mail relay
+```
+python report.py or gunicorn -w 4 -b :5001 mail_relay:app
+```
+

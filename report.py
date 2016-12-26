@@ -13,7 +13,7 @@ from datetime import datetime
 import logging
 
 import tab_api
-import mail
+# import mail
 import db
 import conf
 
@@ -39,7 +39,8 @@ def login():
         session.pop('token', None)
 
         email, password = request.form['email'], request.form['password']
-        login_ok = mail.pop3_login(email, password)
+        # login_ok = mail.pop3_login(email, password)
+        login_ok = mail_pop3_login(email, password)
         logging.debug('email:%s login: %s', email, login_ok)
 
         if login_ok:
@@ -95,6 +96,16 @@ def report_full_url(report_url, token):
     return '%s%s?:embed=y&:showShareOptions=false&TOKEN=%s' % (conf.dashboard_server, report_url, token)
 
 
+def mail_pop3_login(email, passwd):
+    payload = {
+        'email': email,
+        'password': passwd
+    }
+
+    r = requests.post(conf.mail_relay_url, data=payload)
+    return r.status_code == 200
+
+
 def init_logger():
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
@@ -119,8 +130,10 @@ def init_logger():
 
 if __name__ == "__main__":
     init_logger()
-    mail.connect_mailbox()
+
+    # mail.connect_mailbox()
     cnx_pool = MySQLConnectionPool(pool_name="tab_pool", pool_size=conf.mysql_pool_size, **conf.dbconfig)
     logging.info('connected to mysql db:%s', conf.dbconfig['host'])
+
     app.run(host='0.0.0.0', debug=False)
 
