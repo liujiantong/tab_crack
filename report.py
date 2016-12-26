@@ -26,8 +26,11 @@ app.secret_key = '380fec53-b210-4864-925f-6b0da3b56268'
 @app.route('/')
 def index():
     if 'token' in session:
-        return render_template('tab_report_zaixing.html', token=session['token'])
-    return redirect(('login'))
+        return render_template('tab_report.html',
+                               token=session['token'],
+                               tab_name='在行项目',
+                               tab_url='/views/_6/sheet0')
+    return redirect(url_for('login'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -51,7 +54,7 @@ def login():
             xsrf_token, workgroup_session_id = tab_api.tab_login(req_session)
 
             session['token'] = token
-            resp = make_response(redirect(url_for('report_zx')))
+            resp = make_response(redirect(url_for('report_list')))
             resp.set_cookie('XSRF-TOKEN', xsrf_token, domain=conf.IKANG_DOMAIN)
             resp.set_cookie('workgroup_session_id', workgroup_session_id, domain=conf.IKANG_DOMAIN)
             return resp
@@ -59,7 +62,7 @@ def login():
         return render_template('login.html')
     else:
         if 'token' in session:
-            return redirect(url_for('report_zx'))
+            return redirect(url_for('report_list'))
     return render_template('login.html')
 
 
@@ -80,9 +83,16 @@ def internal_server_error(e):
     return render_template('50x.html'), 500
 
 
-@app.route('/report_zx')
-def report_zx():
-    return render_template('tab_report_zaixing.html', token=session['token'])
+@app.route('/report_list')
+def report_list():
+    token = session['token']
+    reports = db.get_reports_by_token(cnx_pool, token=token)
+    reports = [(rpt[0], report_full_url(rpt[1], token)) for rpt in reports]
+    return render_template('tab_report_list.html', reports=reports)
+
+
+def report_full_url(report_url, token):
+    return '%s%s?:embed=y&:showShareOptions=false&TOKEN=%s' % (conf.dashboard_server, report_url, token)
 
 
 def init_logger():

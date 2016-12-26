@@ -2,6 +2,8 @@
 
 IKANG_DOMAIN = '.health.ikang.com'
 
+dashboard_server = 'https://dashboard.health.ikang.com'
+
 mail_server = 'mail.ikang.com'
 
 mysql_host = '192.168.0.173'

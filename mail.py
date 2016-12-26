@@ -12,12 +12,11 @@ mailbox_login_timeout = 5
 
 def connect_mailbox():
     try:
-        smtp = smtplib.SMTP(conf.mail_server, timeout=mailbox_login_timeout)
+        pop3 = poplib.POP3(conf.mail_server, timeout=mailbox_login_timeout)
+        pop3.quit()
     except Exception as e:
         logging.error('connect_mailbox error: %s', e)
         return False
-    finally:
-        smtp.quit()
 
     logging.info('connected to `%s`', conf.mail_server)
     return True
@@ -28,11 +27,10 @@ def smtp_login(email, passwd):
     try:
         smtp = smtplib.SMTP(conf.mail_server, timeout=mailbox_login_timeout)
         code, _ = smtp.login(email, passwd)
+        smtp.quit()
     except Exception as e:
         logging.error('smtp_login error: %s', e)
         return False
-    finally:
-        smtp.quit()
 
     logging.debug('smtp response code:%d', code)
     return int(code/100) == 2
@@ -44,11 +42,10 @@ def pop3_login(email, passwd):
         pop3 = poplib.POP3(conf.mail_server, timeout=mailbox_login_timeout)
         pop3.user(email)
         pass_resp = pop3.pass_(passwd)
+        pop3.quit()
     except Exception as e:
         logging.error('pop3_login error: %s', e)
         return False
-    finally:
-        pop3.quit()
 
     logging.debug('pop3 response code:%s', pass_resp)
     return True

@@ -2,14 +2,14 @@
 <html>
 
 <head>
-    <title>在行项目报表</title>
+    <title>{{ tab_name }}</title>
     <!-- tableau-2.1.0.js -->
     <script type="text/javascript"
         src="https://dashboard.health.ikang.com/javascripts/api/tableau-2.1.0.min.js"></script>
     <script type="text/javascript">
         function initViz() {
             var containerDiv = document.getElementById("vizContainer"),
-                url = "https://dashboard.health.ikang.com/views/_6/sheet0?:embed=y&:showShareOptions=false&TOKEN={{ token }}",
+                url = "https://dashboard.health.ikang.com{{ tab_url }}?:embed=y&:showShareOptions=false&TOKEN={{ token }}",
                 options = {
                     hideTabs: true,
                     onFirstInteractive: function () {

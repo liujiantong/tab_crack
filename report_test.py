@@ -46,7 +46,7 @@ def init_logger():
 
 @app.route('/report_zx')
 def report_zx():
-    return render_template('tab_report_zaixing.html', token=session['token'])
+    return render_template('tab_report.html', token=session['token'])
 
 
 @app.route('/signon', methods=['GET', 'POST'])

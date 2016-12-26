@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>报表列表</title>
+</head>
+<body>
+<ul>
+    {% for report in reports %}
+    <li><div><a href="{{ report[1] }}">{{ report[0] }}</a></div></li>
+    {% endfor %}
+</ul>
+</body>
+</html>
