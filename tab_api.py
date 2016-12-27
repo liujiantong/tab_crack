@@ -59,14 +59,14 @@ def asymmetric_encrypt(val, public_key):
     return cipher.encrypt(val)
 
 
-def vizportal_login(session, tab_user, encryptedPassword, keyId):
-    encoded_passd = binascii.b2a_hex(encryptedPassword)
+def vizportal_login(session, tab_user, encrypted_passwd, keyid):
+    encoded_passd = binascii.b2a_hex(encrypted_passwd)
     payload = {
         'method': 'login',
         'params': {
             'username': tab_user,
             'encryptedPassword': encoded_passd,
-            'keyId': keyId
+            'keyId': keyid
         }
     }
 
@@ -120,7 +120,7 @@ def tab_login(session, tab_user=conf.tab_username, tab_passwd=conf.tab_password)
 
 if __name__ == '__main__':
     # Establish a session so we can retain the cookies
-    session = requests.Session()
-    xsrf_token, workgroup_session_id = tab_login(session)
+    req_session = requests.Session()
+    xsrf_token, workgroup_session_id = tab_login(req_session)
     print 'xsrf_token:{}, workgroup_session_id:{}'.format(xsrf_token, workgroup_session_id)
 
