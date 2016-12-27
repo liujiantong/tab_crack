@@ -5,6 +5,7 @@
 import os
 import logging
 from datetime import datetime
+import argparse
 from flask import Flask, request
 
 import mail
@@ -45,10 +46,11 @@ def init_logger():
 
 
 if __name__ == '__main__':
+    argparse.ArgumentParser()
     init_logger()
 
     mail.connect_mailbox()
     logging.info('mail relay started')
 
-    app.run()
+    app.run(host='0.0.0.0', port=5001, debug=False)
 

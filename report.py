@@ -135,5 +135,5 @@ if __name__ == "__main__":
     cnx_pool = MySQLConnectionPool(pool_name="tab_pool", pool_size=conf.mysql_pool_size, **conf.dbconfig)
     logging.info('connected to mysql db:%s', conf.dbconfig['host'])
 
-    app.run(host='0.0.0.0', debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=False)
 
