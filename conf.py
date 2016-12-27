@@ -22,4 +22,4 @@ dbconfig = {
     'database': mysql_db
 }
 
-mail_relay_url = 'http://mailrelay.ikang.com:5001/mail_login'
+mail_relay_url = 'http://101.254.182.87:8777/mail_login'
