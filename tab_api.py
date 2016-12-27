@@ -16,6 +16,14 @@ tab_server_url = "https://dashboard.health.ikang.com"
 vizportal_api_url = "/vizportal/api/web/v1/"
 
 
+tab_headers = {
+    'content-type': "application/json;charset=UTF-8",
+    'accept': "application/json, text/plain, */*",
+    'cache-control': "no-cache",
+    'accept-language': 'zh-CN,zh;q=0.8,en;q=0.6'
+}
+
+
 def _encode_for_display(text):
     return text.encode('ascii', errors="backslashreplace").decode('utf8')
 
@@ -29,13 +37,7 @@ def generate_public_key(session):
         'params': {}
     }
 
-    headers = {
-        'content-type': "application/json;charset=UTF-8",
-        'accept': "application/json, text/plain, */*",
-        'cache-control': "no-cache"
-    }
-
-    resp = session.post(url, data=json.dumps(payload), headers=headers)
+    resp = session.post(url, json=payload, headers=tab_headers)
     resp_text = json.loads(_encode_for_display(resp.text))
     resp_values = {
         "keyId": resp_text["result"]["keyId"],
@@ -70,12 +72,7 @@ def vizportal_login(session, tab_user, encryptedPassword, keyId):
 
     endpoint = "login"
     url = tab_server_url + vizportal_api_url + endpoint
-    headers = {
-        'content-type': "application/json;charset=UTF-8",
-        'accept': "application/json, text/plain, */*",
-        'cache-control': "no-cache"
-    }
-    resp = session.post(url, data=json.dumps(payload), headers=headers)
+    resp = session.post(url, json=payload, headers=tab_headers)
     return resp
 
 
@@ -88,17 +85,13 @@ def update_extract_schedule(session, task_id, schedule_id, xsrf_token):
         }
     }
 
-    headers = {
-        'content-type': "application/json;charset=UTF-8",
-        'accept': "application/json, text/plain, */*",
-        'cache-control': "no-cache",
-        'X-XSRF-TOKEN': xsrf_token
-    }
+    headers = tab_headers.copy()
+    headers['X-XSRF-TOKEN'] = xsrf_token
 
     endpoint = "setExtractTasksSchedule"
     url = tab_server_url + vizportal_api_url + endpoint
 
-    resp = session.post(url, data=json.dumps(payload), headers=headers)
+    resp = session.post(url, json=payload, headers=headers)
     print resp.status_code
     return resp
 
