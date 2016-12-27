@@ -9,6 +9,7 @@ from flask import session, request, redirect, url_for
 from mysql.connector.pooling import MySQLConnectionPool
 
 import os
+import argparse
 from datetime import datetime
 import logging
 
@@ -129,11 +130,15 @@ def init_logger():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--port', type=int, default=5000, help='Service Port')
+    args = parser.parse_args()
+
     init_logger()
 
     # mail.connect_mailbox()
     cnx_pool = MySQLConnectionPool(pool_name="tab_pool", pool_size=conf.mysql_pool_size, **conf.dbconfig)
     logging.info('connected to mysql db:%s', conf.dbconfig['host'])
 
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=args.port, debug=False)
 
