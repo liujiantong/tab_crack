@@ -129,16 +129,14 @@ def init_logger():
     logger.addHandler(file_handler)
 
 
+init_logger()
+cnx_pool = MySQLConnectionPool(pool_name="tab_pool", pool_size=conf.mysql_pool_size, **conf.dbconfig)
+logging.info('connected to mysql db:%s', conf.dbconfig['host'])
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--port', type=int, default=5000, help='Service Port')
     args = parser.parse_args()
 
-    init_logger()
-
     # mail.connect_mailbox()
-    cnx_pool = MySQLConnectionPool(pool_name="tab_pool", pool_size=conf.mysql_pool_size, **conf.dbconfig)
-    logging.info('connected to mysql db:%s', conf.dbconfig['host'])
-
     app.run(host='0.0.0.0', port=args.port, debug=False)
-

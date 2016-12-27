@@ -45,14 +45,13 @@ def init_logger():
     logger.addHandler(file_handler)
 
 
+init_logger()
+mail.connect_mailbox()
+logging.info('mail relay started')
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--port', type=int, default=5001, help='Service Port')
     args = parser.parse_args()
 
-    init_logger()
-    mail.connect_mailbox()
-    logging.info('mail relay started')
-
     app.run(host='0.0.0.0', port=args.port, debug=False)
-
