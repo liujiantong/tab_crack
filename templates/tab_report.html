@@ -34,14 +34,12 @@
     .control select{float:right;margin:10px 20px 0 0;outline:none;}
 </style>
 <body onload="initViz();">
-    <div class="control"><span class="back">返回</span>
+    <div class="control">
+        <span class="back"><a href="/report_list">返回</a></span>
         <select name="" id="">
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <option value="">4</option>
-            <option value="">5</option>
-            <option value="">6</option>
+            {% for report in reports %}
+            <option value="{{ report[1] }}">{{ report[0] }}</option>
+            {% endfor %}
         </select>
     </div>
     <div id="vizContainer" style="width:100%; height:100%;"></div>

@@ -87,12 +87,26 @@ def internal_server_error(e):
 def report_list():
     token = session['token']
     reports = db.get_reports_by_token(cnx_pool, token=token)
-    reports = [(rpt[0], report_full_url(rpt[1], token)) for rpt in reports]
+    reports = [(rpt[0], report_full_url(rpt[0], rpt[1], token)) for rpt in reports]
     return render_template('tab_report_list.html', reports=reports)
 
 
-def report_full_url(report_url, token):
-    return '%s%s?:embed=y&:showShareOptions=false&TOKEN=%s' % (conf.dashboard_server, report_url, token)
+@app.route('/report')
+def report():
+    token = session['token']
+    name = request.args.get('name', None)
+    url = request.args.get('url', None)
+    if name is None or url is None:
+        return '', 400
+
+    reports = db.get_reports_by_token(cnx_pool, token=token)
+    reports = [(rpt[0], report_full_url(rpt[0], rpt[1], token)) for rpt in reports]
+    return render_template('tab_report.html', token=token, tab_name=name, tab_url=url, reports=reports)
+
+
+def report_full_url(report_name, report_url, token):
+    # return '%s%s?:embed=y&:showShareOptions=false&TOKEN=%s' % (conf.dashboard_server, report_url, token)
+    return '/report?name=%s&url=%s' % (report_name, report_url)
 
 
 def mail_pop3_login(email, passwd):
