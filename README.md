@@ -33,7 +33,7 @@
 
 ## 启动
 ```
-python report.py or gunicorn -D -w 4 -b 0.0.0.0:5000 report:app
+python report.py or gunicorn -D -w 4 --threads 2 -b 0.0.0.0:5000 report:app
 ```
 
 ## 启动 mail relay
