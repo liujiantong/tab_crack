@@ -5,12 +5,67 @@
     <title>用邮箱登录</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 </head>
+<style>
+    *{margin:0;padding:0;font-size:12px;}
+    ul li{list-style-type:none;}
+    input{outline:none;}
+    a{text-decoration:none;}
+    img{border:none 0;}
+
+    .loginBox{position: absolute;top: 15%;right: 0;bottom: 0;left: 0;text-align: center;min-width: 1000px;}
+    .logo{margin:0 auto 60px;width: 277px;
+        height: 58px;
+        background-image: url(https://dashboard.health.ikang.com/img/tableau_sign_in_logo.svg?uolvvd8rz42y669272t6v42t9);}
+    .loginBox form p input{width:300px;height:34px;line-height:34px;border:1px solid #b2b2b2;border-radius:2px;margin:6px;text-indent:1em;background:#fff;color:#333}
+    .loginBox form .submit{
+        min-width:224px;
+        display: inline-block;
+        line-height: 34px;
+        margin-top: 29px;
+        padding: 6px 18px;
+        text-align: center;
+        font-size: 18px;
+        font-family: BentonSans-Book, Arial, Helvetica, sans-serif;
+        color: #fff;
+        border: 0;
+        outline: 0;
+        border-radius: 2px;
+        -o-border-radius: 2px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        -khtml-border-radius: 2px;
+        transition: background-color 150ms ease-in;
+        -o-transition: background-color 150ms ease-in;
+        -moz-transition: background-color 150ms ease-in;
+        -webkit-transition: background-color 150ms ease-in;
+        cursor: pointer;color: #fff;text-decoration: none;outline: 0;background-color: #eb8f50;}
+    .loginBox form .submit:hover{background:#d16b36}
+    .errorTip{margin-top:90px;}
+    .errorTip .tip{display: inline-block;
+        max-width: 500px;
+        margin: 0 0 6px;
+        padding: 12px 18px;
+        text-align: center;
+        font-weight: bold;
+        border-radius: 2px;
+        -o-border-radius: 2px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        -khtml-border-radius: 2px;color: #eb4454;
+        border: 1px solid #eb4454;}
+</style>
 <body>
-<form method="post" action="/login">
-    <p>邮箱: <input type="text" name="email">
-    <p>密码: <input type="password" name="password">
-    <p><input type="submit" value="登录">
-</form>
-<div>{{ err_msg }}</div>
+<!---->
+<div class="loginBox">
+        <div class="logo"></div>
+        <form  method="post" action="/login">
+            <p><input placeholder="邮箱" type="text" name="email"></p>
+            <p><input placeholder="密码" type="password" name="password"></p>
+            <input class="submit" type="submit" value="登录">
+        </form>
+    <div class="errorTip"><div class="tip">{{ err_msg }}</div></div>
+</div>
+
+
 </body>
 </html>

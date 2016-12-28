@@ -6,8 +6,21 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<ul>
+<style>
+    *{margin:0;padding:0;font-size:12px;}
+    ul li{list-style-type:none;}
+    input{outline:none;}
+    a{text-decoration:none;}
+    img{border:none 0;}
+
+    .reportList{padding:10px;}
+    .reportList li{margin:6px 0;}
+    .reportList li a{display:block;border:1px solid #b2b2b2;padding:5px;color:#333;}
+    .reportList li a:hover{color:darkblue;border:1px solid darkblue;}
+</style>
+<ul class="reportList">
     {% for report in reports %}
+    <li><div><a href="{{ report[1] }}">{{ report[0] }}</a></div></li>
     <li><div><a href="{{ report[1] }}">{{ report[0] }}</a></div></li>
     {% endfor %}
 </ul>
