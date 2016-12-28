@@ -15,6 +15,7 @@ import logging
 
 import tab_api
 # import mail
+from aes import AESCipher
 import db
 import conf
 
@@ -99,8 +100,8 @@ def report_full_url(report_url, token):
 
 def mail_pop3_login(email, passwd):
     payload = {
-        'email': email,
-        'password': passwd
+        'email': aes_cipher.encrypt(email),
+        'password': aes_cipher.encrypt(passwd)
     }
 
     r = requests.post(conf.mail_relay_url, data=payload)
@@ -132,6 +133,9 @@ def init_logger():
 init_logger()
 cnx_pool = MySQLConnectionPool(pool_name="tab_pool", pool_size=conf.mysql_pool_size, **conf.dbconfig)
 logging.info('connected to mysql db:%s', conf.dbconfig['host'])
+
+aes_cipher = AESCipher(conf.mail_relay_key)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

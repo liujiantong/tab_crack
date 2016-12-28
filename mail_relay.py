@@ -8,15 +8,20 @@ from datetime import datetime
 import argparse
 from flask import Flask, request
 
+import aes
 import mail
+import conf
 
 
 app = Flask(__name__)
 
+aes_cipher = aes.AESCipher(conf.mail_relay_key)
+
 
 @app.route('/mail_login', methods=['POST'])
 def mail_login():
-    email, password = request.form['email'], request.form['password']
+    enc_email, enc_password = request.form['email'], request.form['password']
+    email, password = aes_cipher.decrypt(enc_email), aes_cipher.decrypt(enc_password)
     logging.debug('email:%s, password:%s', email, password)
 
     login_ok = mail.pop3_login(email, password)
