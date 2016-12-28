@@ -28,10 +28,7 @@ app.secret_key = '380fec53-b210-4864-925f-6b0da3b56268'
 @app.route('/')
 def index():
     if 'token' in session:
-        return render_template('tab_report.html',
-                               token=session['token'],
-                               tab_name='在行项目',
-                               tab_url='/views/_6/sheet0')
+        return redirect(url_for('report_list'))
     return redirect(url_for('login'))
 
 
@@ -50,7 +47,7 @@ def login():
             logging.debug('email:%s token:%s', email, token)
 
             if token is None:
-                return render_template('login.html')
+                return render_template('login.html', err_msg='用户没有授权码')
 
             # Establish a session so we can retain the cookies
             req_session = requests.Session()
@@ -62,11 +59,11 @@ def login():
             resp.set_cookie('workgroup_session_id', workgroup_session_id, domain=conf.IKANG_DOMAIN)
             return resp
 
-        return render_template('login.html')
+        return render_template('login.html', err_msg='邮箱验证失败')
     else:
         if 'token' in session:
             return redirect(url_for('report_list'))
-    return render_template('login.html')
+    return render_template('login.html', err_msg='')
 
 
 @app.route('/logout')
