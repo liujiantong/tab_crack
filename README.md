@@ -19,10 +19,17 @@
 * requests
 
 ## 部署
+
+### 复制代码到 ETL服务器
 * scp tab_report.tar deployer@211.151.25.6:uni_deploy/
 * ssh deployer@211.151.25.6
 * sudo su -
 * scp -P222 /home/deployer/uni_deploy/tab_report.tar root@192.168.0.182:/home/tao.liu1
+
+### 复制邮箱登录代码到 Titan服务器
+* scp tab_report.tar tao.liu@192.168.99.213:
+
+### 安装 supervisord
 
 ## 启动
 ```
@@ -31,6 +38,6 @@ python report.py or gunicorn -D -w 4 -b 0.0.0.0:5000 report:app
 
 ## 启动 mail relay
 ```
-python report.py or gunicorn -D -w 4 -b 0.0.0.0:5001 mail_relay:app
+python mail_relay.py or gunicorn -D -w 4 -b 0.0.0.0:5001 mail_relay:app
 ```
 
