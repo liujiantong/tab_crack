@@ -40,7 +40,7 @@ def login():
         email, password = request.form['email'], request.form['password']
         # login_ok = mail.pop3_login(email, password)
         login_ok = mail_pop3_login(email, password)
-        logging.debug('email:%s login: %s', email, login_ok)
+        logging.info('email:%s login: %s', email, login_ok)
 
         if login_ok:
             token = db.token_by_email(cnx_pool, email)
