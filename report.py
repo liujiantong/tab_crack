@@ -4,7 +4,7 @@
 import requests
 from flask import Flask, make_response, render_template, escape
 from flask import session, request, redirect, url_for
-# from flask_sslify import SSLify
+from flask_sslify import SSLify
 
 from mysql.connector.pooling import MySQLConnectionPool
 
@@ -21,7 +21,7 @@ import conf
 
 
 app = Flask(__name__)
-# sslify = SSLify(app)
+sslify = SSLify(app)
 app.secret_key = '380fec53-b210-4864-925f-6b0da3b56268'
 
 
