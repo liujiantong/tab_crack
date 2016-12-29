@@ -47,7 +47,7 @@ def login():
             logging.debug('email:%s token:%s', email, token)
 
             if token is None:
-                return render_template('login.html', err_msg=u'用户没有授权码')
+                return render_template('login.html', err_msg=u'该邮箱没有授权, 请联系管理员')
 
             # Establish a session so we can retain the cookies
             req_session = requests.Session()
