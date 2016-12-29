@@ -13,11 +13,20 @@
     a{text-decoration:none;}
     img{border:none 0;}
 
+    .logo{margin:0 auto 60px;width: 277px;
+        height: 58px;
+        background-image: url(https://dashboard.health.ikang.com/img/tableau_sign_in_logo.svg?uolvvd8rz42y669272t6v42t9);}
     .reportList{padding:10px;}
-    .reportList li{margin:6px 0;}
-    .reportList li a{display:block;border:1px solid #b2b2b2;padding:5px;color:#333;}
-    .reportList li a:hover{color:darkblue;border:1px solid darkblue;}
+    .reportList:after{clear:both;zoom:1;display:block;content:'';}
+    .reportList li{margin:6px 0;width:50%;float:left;}
+    .reportList li a{display:block;border:1px solid #b2b2b2;padding:5px;color:#333;width:90%;margin:0 auto;font-size:14px;}
+    .reportList li a:hover{color:darkblue;border:1px solid darkblue;background:lightyellow;}
 </style>
+<br/>
+<br/>
+<br/>
+
+<div class="logo"></div>
 <ul class="reportList">
     {% for report in reports %}
     <li><div><a href="{{ report[1] }}">{{ report[0] }}</a></div></li>

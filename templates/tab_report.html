@@ -31,14 +31,15 @@
 
     .control{border-bottom:1px solid #b2b2b2;margin-bottom:5px;height:40px;}
     .control .back{color:#333333;cursor:pointer;line-height:40px;padding:0 0 0 20px;}
+    .control .back a{color:#333333;}
     .control select{float:right;margin:10px 20px 0 0;outline:none;}
 </style>
 <body onload="initViz();">
     <div class="control">
         <span class="back"><a href="/report_list">返回</a></span>
-        <select name="" id="">
+        <select name="" id="" onchange="(function(e){window.location.href(e.value)})(this)">
             {% for report in reports %}
-            <option value="{{ report[1] }}">{{ report[0] }}</option>
+            <option value="{{ report[1] }}">{{ report[0] }}</option><option value="{{ report[1] }}">{{ report[0] }}</option>
             {% endfor %}
         </select>
     </div>
