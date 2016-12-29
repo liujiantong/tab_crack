@@ -47,7 +47,7 @@ def login():
             logging.debug('email:%s token:%s', email, token)
 
             if token is None:
-                return render_template('login.html', err_msg='用户没有授权码')
+                return render_template('login.html', err_msg=u'用户没有授权码')
 
             # Establish a session so we can retain the cookies
             req_session = requests.Session()
@@ -59,7 +59,7 @@ def login():
             resp.set_cookie('workgroup_session_id', workgroup_session_id, domain=conf.IKANG_DOMAIN)
             return resp
 
-        return render_template('login.html', err_msg='邮箱验证失败')
+        return render_template('login.html', err_msg=u'邮箱验证失败')
     else:
         if 'token' in session:
             return redirect(url_for('report_list'))
