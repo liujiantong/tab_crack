@@ -76,7 +76,6 @@ def logout():
     return resp
 
 
-
 @app.route('/alive')
 def alive():
     return 'ok'
