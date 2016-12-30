@@ -36,7 +36,7 @@
 </style>
 <body onload="initViz();">
     <div class="control">
-        <span class="back"><a href="/report_list">返回</a></span>
+        <span class="back"><a href="/report_list">首页</a></span>
         <select name="" id="" onchange='(function(e){window.location.href(e.value)})(this)'>
             {% for report in reports %}
             <option value="{{ report[1] }}" {{ '' if report[1].find(tab_url) == -1 else 'selected' }}>{{ report[0] }}</option>
