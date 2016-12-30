@@ -54,6 +54,7 @@ def login():
             xsrf_token, workgroup_session_id = tab_api.tab_login(req_session)
 
             session['token'] = token
+            session['email'] = email
             resp = make_response(redirect(url_for('report_list')))
             resp.set_cookie('XSRF-TOKEN', xsrf_token, domain=conf.IKANG_DOMAIN)
             resp.set_cookie('workgroup_session_id', workgroup_session_id, domain=conf.IKANG_DOMAIN)
@@ -68,8 +69,9 @@ def login():
 
 @app.route('/logout')
 def logout():
-    # remove the username from the session if it's there
+    # remove the token from the session if it's there
     session.pop('token', None)
+    session.pop('email', None)
     resp = make_response(redirect(url_for('login')))
     resp.set_cookie('XSRF-TOKEN', '', expires=0)
     resp.set_cookie('workgroup_session_id', '', expires=0)
