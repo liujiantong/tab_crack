@@ -70,7 +70,11 @@ def login():
 def logout():
     # remove the username from the session if it's there
     session.pop('token', None)
-    return redirect(url_for('login'))
+    resp = make_response(redirect(url_for('login')))
+    resp.set_cookie('XSRF-TOKEN', '', expires=0)
+    resp.set_cookie('workgroup_session_id', '', expires=0)
+    return resp
+
 
 
 @app.route('/alive')
