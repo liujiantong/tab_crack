@@ -13,8 +13,15 @@
     a{text-decoration:none;}
     img{border:none 0;}
 
-    .logo{margin:0 auto 60px;width: 277px;
+    .listTop{border-bottom:1px solid #b2b2b2;height:40px;margin-bottom:30px;}
+    .listTop .logout{float:right;line-height:40px;color:#333;margin-right:40px;}
+    .l-ogo{margin:0 auto 60px;width: 277px;
         height: 58px;
+        background-image: url(https://dashboard.health.ikang.com/img/tableau_sign_in_logo.svg?uolvvd8rz42y669272t6v42t9);}
+    .logo{float:left;width: 200px;
+        margin:5px 0 0 30px;
+        height: 30px;
+        background-repeat:no-repeat;
         background-image: url(https://dashboard.health.ikang.com/img/tableau_sign_in_logo.svg?uolvvd8rz42y669272t6v42t9);}
     .reportList{padding:10px;}
     .reportList:after{clear:both;zoom:1;display:block;content:'';}
@@ -22,11 +29,11 @@
     .reportList li a{display:block;border:1px solid #b2b2b2;padding:5px;color:#333;width:96%;margin:0 auto;font-size:15px;line-height:26px;}
     .reportList li a:hover{color:darkblue;border:1px solid darkblue;background:lightyellow;}
 </style>
-<br/>
-<br/>
-<br/>
+<div class="listTop">
+    <div class="logo"></div>
+    <a class="logout" href="/logout">退出登录</a>
+</div>
 
-<div class="logo"></div>
 <ul class="reportList">
     {% for report in reports %}
     <li><div><a href="{{ report[1] }}">{{ report[0] }}</a></div></li>
