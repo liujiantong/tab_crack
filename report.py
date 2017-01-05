@@ -37,6 +37,7 @@ def index():
 def login():
     if request.method == 'POST':
         session.pop('token', None)
+        session.pop('email', None)
 
         email, password = request.form['email'], request.form['password']
         # login_ok = mail.pop3_login(email, password)
