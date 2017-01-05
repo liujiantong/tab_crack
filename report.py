@@ -10,7 +10,7 @@ from mysql.connector.pooling import MySQLConnectionPool
 
 import os
 import argparse
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
 import tab_api
@@ -23,6 +23,7 @@ import conf
 app = Flask(__name__)
 # sslify = SSLify(app)
 app.secret_key = '380fec53-b210-4864-925f-6b0da3b56268'
+app.permanent_session_lifetime = timedelta(hours=6)
 
 
 @app.route('/')
@@ -90,7 +91,10 @@ def internal_server_error(e):
 
 @app.route('/report_list')
 def report_list():
-    token = session['token']
+    token = session.get('token', None)
+    if token is None:
+        return redirect(url_for('login'))
+
     reports = db.get_reports_by_token(cnx_pool, token=token)
     reports = [(rpt[0], report_full_url(rpt[0], rpt[1], token)) for rpt in reports]
     return render_template('tab_report_list.html', reports=reports)
@@ -98,7 +102,10 @@ def report_list():
 
 @app.route('/report')
 def report():
-    token = session['token']
+    token = session.get('token', None)
+    if token is None:
+        return redirect(url_for('login'))
+
     name = request.args.get('name', None)
     url = request.args.get('url', None)
     if name is None or url is None:
