@@ -23,7 +23,7 @@ import conf
 app = Flask(__name__)
 # sslify = SSLify(app)
 app.secret_key = '380fec53-b210-4864-925f-6b0da3b56268'
-app.permanent_session_lifetime = timedelta(hours=6)
+app.permanent_session_lifetime = timedelta(hours=3)
 
 
 @app.route('/')
