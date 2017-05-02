@@ -28,9 +28,6 @@ app.permanent_session_lifetime = timedelta(hours=3)
 
 r = redis.StrictRedis(**conf.redis_conf)
 
-# Establish a session so we can retain the cookies
-req_session = requests.Session()
-
 
 @app.route('/')
 def index():
@@ -58,7 +55,7 @@ def login():
                 return render_template('login.html', err_msg=u'该邮箱没有授权, 请联系管理员')
 
             # xsrf_token, workgroup_session_id = tab_api.tab_login(req_session)
-            xsrf_token, workgroup_session_id = get_tab_token_session(req_session)
+            xsrf_token, workgroup_session_id = get_tab_token_session()
 
             session['token'] = token
             session['email'] = email
@@ -137,12 +134,15 @@ def mail_pop3_login(email, passwd):
     return r.status_code == 200
 
 
-def get_tab_token_session(req_sess):
+def get_tab_token_session():
     tsess = r.hgetall('tableau_session')
     if len(tsess) == 2:
         return tsess['xsrf_token'], tsess['workgroup_session_id']
 
+    # Establish a session so we can retain the cookies
+    req_sess = requests.Session()
     xsrf_token, workgroup_session_id = tab_api.tab_login(req_sess)
+
     r.hset('tableau_session', 'xsrf_token', xsrf_token)
     r.hset('tableau_session', 'workgroup_session_id', workgroup_session_id)
     r.expire('tableau_session', timedelta(hours=3))
