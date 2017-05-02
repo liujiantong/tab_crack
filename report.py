@@ -2,13 +2,14 @@
 # coding: utf8
 
 import requests
-from flask import Flask, make_response, render_template, escape
+from flask import Flask, make_response, render_template
 from flask import session, request, redirect, url_for
 # from flask_sslify import SSLify
 
 from mysql.connector.pooling import MySQLConnectionPool
 
 import os
+import redis
 import argparse
 from datetime import datetime, timedelta
 import logging
@@ -22,8 +23,13 @@ import conf
 
 app = Flask(__name__)
 # sslify = SSLify(app)
-app.secret_key = '380fec53-b210-4864-925f-6b0da3b56268'
+app.secret_key = "\xb2'\xb7\xff\xd3\xb0@s+q\x86M\xf9\x0e4PRVL\xa0\xa31\xe9z"
 app.permanent_session_lifetime = timedelta(hours=3)
+
+r = redis.StrictRedis(**conf.redis_conf)
+
+# Establish a session so we can retain the cookies
+req_session = requests.Session()
 
 
 @app.route('/')
@@ -51,9 +57,8 @@ def login():
             if token is None:
                 return render_template('login.html', err_msg=u'该邮箱没有授权, 请联系管理员')
 
-            # Establish a session so we can retain the cookies
-            req_session = requests.Session()
-            xsrf_token, workgroup_session_id = tab_api.tab_login(req_session)
+            # xsrf_token, workgroup_session_id = tab_api.tab_login(req_session)
+            xsrf_token, workgroup_session_id = get_tab_token_session(req_session)
 
             session['token'] = token
             session['email'] = email
@@ -130,6 +135,19 @@ def mail_pop3_login(email, passwd):
 
     r = requests.post(conf.mail_relay_url, data=payload)
     return r.status_code == 200
+
+
+def get_tab_token_session(req_sess):
+    tsess = r.hgetall('tableau_session')
+    if len(tsess) == 2:
+        return tsess['xsrf_token'], tsess['workgroup_session_id']
+
+    xsrf_token, workgroup_session_id = tab_api.tab_login(req_sess)
+    r.hset('tableau_session', 'xsrf_token', xsrf_token)
+    r.hset('tableau_session', 'workgroup_session_id', workgroup_session_id)
+    r.expire('tableau_session', timedelta(hours=3))
+
+    return xsrf_token, workgroup_session_id
 
 
 def init_logger():

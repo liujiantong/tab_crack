@@ -17,8 +17,13 @@
 * flask
 * flask-sslify
 * requests
+* redis
 
 ## 部署
+
+### 启动 Redis
+* 在 ETL服务器安装redis: yum install redis
+* 启动redis: redis-server redis.conf
 
 ### 复制代码到 ETL服务器
 * scp tab_report.tar deployer@211.151.25.6:uni_deploy/

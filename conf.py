@@ -22,6 +22,12 @@ dbconfig = {
     'database': mysql_db
 }
 
+redis_conf = {
+    'host': 'localhost',
+    'port': 6379,
+    'db': 1
+}
+
 mail_relay_url = 'http://101.254.182.87:8777/mail_login'
 mail_relay_key = '40a8d033-ccb2-11e6-bbe7-acbc32acde63'
 
