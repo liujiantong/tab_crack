@@ -18,6 +18,8 @@
 * flask-sslify
 * requests
 * redis
+* gunicorn
+
 
 ## 部署
 
@@ -34,15 +36,21 @@
 ### 复制邮箱登录代码到 Titan服务器
 * scp tab_report.tar tao.liu@192.168.99.213:
 
+### 安装 gunicorn
+* pip install gunicorn
+
 ### 安装 supervisord
+
 
 ## 启动
 ```
-python report.py or gunicorn -D -w 4 --threads 2 -b 0.0.0.0:5000 report:app
+test: python report.py
+deploy: gunicorn -D -w 4 --threads 2 -b 0.0.0.0:5000 report:app
 ```
 
 ## 启动 mail relay
 ```
-python mail_relay.py or gunicorn -D -w 4 -b 0.0.0.0:5001 mail_relay:app
+test: python mail_relay.py
+deploy: gunicorn -D -w 4 -b 0.0.0.0:5001 mail_relay:app
 ```
 
