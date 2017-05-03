@@ -1,6 +1,6 @@
 # 爱康报表项目 (基于授权码解决License受限问题)
 
-爱康报表项目的目标是解决Tableau Server 用户licence 过少的问题(目前爱康公司只购买了10个用户的license). 
+爱康报表项目的目标是解决Tableau Server 用户licence 过少的问题(目前爱康公司只购买了10个用户的license).
 解决方案如下所述.
 
 1. 分配一个统一的Tableau Server 账号作为登录账号
@@ -33,24 +33,24 @@
 * 启动redis: redis-server redis.conf
 
 ### 复制代码到 ETL服务器
-* scp tab_report.tar deployer@211.151.25.6:uni_deploy/
-* ssh deployer@211.151.25.6
+* scp tab_report.tar user@etl_server_ip:uni_deploy/
+* ssh user@etl_server_ip
 * sudo su -
-* scp -P222 /home/deployer/uni_deploy/tab_report.tar root@192.168.0.182:/home/tao.liu1
+* scp -P222 /home/deployer/uni_deploy/tab_report.tar user@etl_server_ip:/home/tao.liu1
 
 ### 复制邮箱登录代码到 Titan服务器
-* scp tab_report.tar tao.liu@192.168.99.213:
+* scp tab_report.tar user@titan_server_ip:
 
 ### 安装 gunicorn
 * pip install gunicorn
 
 ### 安装 supervisor
-- 分别在`192.168.0.182` 和 `192.168.99.213` 上安装: pip install supervisor
+- 分别在 ETL server 和 Titan 上安装: pip install supervisor
 - 修改/etc/supervisord.conf, 添加服务配置
 
 ### 映射外网地址
 - 爱康email服务器访问带宽有限, 在工作时间段访问速度不稳定. 因此需要一个访问email服务器的中继节点.
-- 目前的email中继服务部署在`192.168.99.213`, 需要一个外网访问地址映射, 参见`conf.py`.
+- 目前的email中继服务部署在Titan server, 需要一个外网访问地址映射, 参见`conf.py`.
 
 ## 启动
 ```
