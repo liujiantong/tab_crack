@@ -4,6 +4,7 @@
 
 import os
 import logging
+import hashlib
 from datetime import datetime
 import argparse
 from flask import Flask, request
@@ -20,9 +21,13 @@ aes_cipher = aes.AESCipher(conf.mail_relay_key)
 
 @app.route('/mail_login', methods=['POST'])
 def mail_login():
-    enc_email, enc_password = request.form['email'], request.form['password']
+    enc_email, enc_password, sign = request.form['email'], request.form['password'], request.form['sign']
     email, password = aes_cipher.decrypt(enc_email), aes_cipher.decrypt(enc_password)
-    logging.debug('email:%s, password:%s', email, password)
+    logging.debug('email:%s, password:%s, sign:%s', email, password, sign)
+
+    sign_computed = hashlib.sha1('%s:%s:%s' % (email, password, conf.mail_relay_key)).hexdigest()
+    if sign != sign_computed:
+        return '', 401
 
     login_ok = mail.pop3_login(email, password)
     return '', 200 if login_ok else 401
@@ -38,7 +43,7 @@ def init_logger():
         os.makedirs(log_dir)
 
     console_handler = logging.StreamHandler()
-    file_suffix = datetime.strftime(datetime.today(), '%Y%m%d')
+    file_suffix = datetime.today().strftime('%Y%m%d')
     logfile_name = '%s/%s.%s' % (log_dir, 'mail_relay.log', file_suffix)
     file_handler = logging.FileHandler(logfile_name)
 
@@ -53,6 +58,7 @@ def init_logger():
 init_logger()
 mail.connect_mailbox()
 logging.info('mail relay started')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

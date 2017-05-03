@@ -10,6 +10,7 @@ from mysql.connector.pooling import MySQLConnectionPool
 
 import os
 import redis
+import hashlib
 import argparse
 from datetime import datetime, timedelta
 import logging
@@ -120,14 +121,15 @@ def report():
 
 
 def report_full_url(report_name, report_url, token):
-    # return '%s%s?:embed=y&:showShareOptions=false&TOKEN=%s' % (conf.dashboard_server, report_url, token)
+    # return '%s%s?:embed=y&:showShareOptions=false&TOKEN=%s' % (supervisord.dashboard_server, report_url, token)
     return '/report?name=%s&url=%s' % (report_name, report_url)
 
 
 def mail_pop3_login(email, passwd):
     payload = {
         'email': aes_cipher.encrypt(email),
-        'password': aes_cipher.encrypt(passwd)
+        'password': aes_cipher.encrypt(passwd),
+        'sign': hashlib.sha1('%s:%s:%s' % (email, passwd, conf.mail_relay_key)).hexdigest()
     }
 
     req = requests.post(conf.mail_relay_url, data=payload)
