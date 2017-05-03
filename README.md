@@ -40,7 +40,9 @@
 ### 安装 gunicorn
 * pip install gunicorn
 
-### 安装 supervisord
+### 安装 supervisor
+- 分别在`192.168.0.182` 和 `192.168.99.213` 上安装: pip install supervisor
+- 修改/etc/supervisord.conf, 添加服务配置
 
 ### 映射外网地址
 - 爱康email服务器访问带宽有限, 在工作时间段访问速度不稳定. 因此需要一个访问email服务器的中继节点.
