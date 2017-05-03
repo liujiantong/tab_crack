@@ -22,6 +22,10 @@
 * gunicorn
 
 
+## 参考文档
+* https://onlinehelp.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api.htm
+
+
 ## 部署
 
 ### 启动 Redis

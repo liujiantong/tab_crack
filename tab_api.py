@@ -102,10 +102,10 @@ def tab_login(session, tab_user=conf.tab_username, tab_passwd=conf.tab_password)
     keyId = public_key["keyId"]
     logging.debug('keyId: %s', keyId)
 
-    # Encrypt the password used to login
+    # Encrypt the user’s password with RSA PKCS1 encryption
     encrypted_passwd = asymmetric_encrypt(tab_passwd, public_key)
 
-    # Capture the response
+    # Login to Vizportal and Capture the response
     login_resp = vizportal_login(session, tab_user, encrypted_passwd, keyId)
 
     # Parse the cookie
@@ -114,6 +114,7 @@ def tab_login(session, tab_user=conf.tab_username, tab_passwd=conf.tab_password)
     set_cookie = dict([c for c in cookies if len(c) == 2])
     # print 'set_cookie:', set_cookie
 
+    # Retain the workgroup_session_id and XSRF-TOKEN so we can submit other calls to Vizportal
     xsrf_token, workgroup_session_id = set_cookie["HttpOnly, XSRF-TOKEN"], set_cookie["workgroup_session_id"]
     return xsrf_token, workgroup_session_id
 
