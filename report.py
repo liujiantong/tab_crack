@@ -14,8 +14,8 @@ import argparse
 from datetime import datetime, timedelta
 import logging
 
-import tab_api
 # import mail
+import tab_api
 from aes import AESCipher
 import db
 import conf
@@ -54,7 +54,6 @@ def login():
             if token is None:
                 return render_template('login.html', err_msg=u'该邮箱没有授权, 请联系管理员')
 
-            # xsrf_token, workgroup_session_id = tab_api.tab_login(req_session)
             xsrf_token, workgroup_session_id = get_tab_token_session()
 
             session['token'] = token
@@ -89,6 +88,7 @@ def alive():
 
 @app.errorhandler(500)
 def internal_server_error(e):
+    logging.error("internal error: %s", e)
     return render_template('50x.html'), 500
 
 
@@ -130,8 +130,8 @@ def mail_pop3_login(email, passwd):
         'password': aes_cipher.encrypt(passwd)
     }
 
-    r = requests.post(conf.mail_relay_url, data=payload)
-    return r.status_code == 200
+    req = requests.post(conf.mail_relay_url, data=payload)
+    return req.status_code == 200
 
 
 def get_tab_token_session():
@@ -160,7 +160,7 @@ def init_logger():
         os.makedirs(log_dir)
 
     console_handler = logging.StreamHandler()
-    file_suffix = datetime.strftime(datetime.today(), '%Y%m%d')
+    file_suffix = datetime.today().strftime('%Y%m%d')
     logfile_name = '%s/%s.%s' % (log_dir, 'tab_report.log', file_suffix)
     file_handler = logging.FileHandler(logfile_name)
 
