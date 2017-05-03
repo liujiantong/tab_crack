@@ -51,11 +51,11 @@
 ## 启动
 ```
 test: python report.py
-production: gunicorn -D -w 4 --threads 2 -b 0.0.0.0:5000 report:app
+production: sudo supervisorctl start tab_report
 ```
 
 ## 启动 mail relay
 ```
 test: python mail_relay.py
-production: gunicorn -D -w 4 -b 0.0.0.0:5001 mail_relay:app
+production: sudo supervisorctl start mail_relay
 ```
