@@ -73,12 +73,13 @@ def login():
 
 @app.route('/logout')
 def logout():
+    logging.info("user:%s logout", session['email'])
     # remove the token from the session if it's there
     session.pop('token', None)
     session.pop('email', None)
     resp = make_response(redirect(url_for('login')))
-    resp.set_cookie('XSRF-TOKEN', '', expires=0)
-    resp.set_cookie('workgroup_session_id', '', expires=0)
+    resp.set_cookie('XSRF-TOKEN', '', max_age=0, expires=0, domain=conf.IKANG_DOMAIN)
+    resp.set_cookie('workgroup_session_id', '', max_age=0, expires=0, domain=conf.IKANG_DOMAIN)
     return resp
 
 
