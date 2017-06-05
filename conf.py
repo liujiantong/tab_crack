@@ -1,18 +1,18 @@
 # coding: utf8
 
-IKANG_DOMAIN = '.health.ikang.com'
+MAIN_DOMAIN = '.somewhere.com'
 
-dashboard_server = 'https://dashboard.health.ikang.com'
+dashboard_server = 'https://dashboard.somewhere.com'
 
-mail_server = 'mail.ikang.com'
+mail_server = 'mail.somewhere.com'
 
 mysql_host = '192.168.0.173'
-mysql_user = 'u_user_view'
+mysql_user = 'mysql_user'
 mysql_passwd = '*********'
 mysql_db = 'etl_ctl'
 mysql_pool_size = 5
 
-tab_username = "common_user"
+tab_username = "the_universal_user"
 tab_password = '***********'
 
 dbconfig = {
@@ -28,5 +28,5 @@ redis_conf = {
     'db': 1
 }
 
-mail_relay_url = 'http://188.188.188.1888:8888/mail_login'
+mail_relay_url = 'http://188.188.188.188:8888/mail_login'
 mail_relay_key = '***************************************'

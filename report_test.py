@@ -71,8 +71,8 @@ def login():
 
             session['token'] = token
             resp = make_response(redirect(url_for('report_zx')))
-            resp.set_cookie('XSRF-TOKEN', xsrf_token, domain=conf.IKANG_DOMAIN)
-            resp.set_cookie('workgroup_session_id', workgroup_session_id, domain=conf.IKANG_DOMAIN)
+            resp.set_cookie('XSRF-TOKEN', xsrf_token, domain=conf.MAIN_DOMAIN)
+            resp.set_cookie('workgroup_session_id', workgroup_session_id, domain=conf.MAIN_DOMAIN)
             return resp
 
         return render_template('login.html')
@@ -90,4 +90,3 @@ def alive():
 if __name__ == "__main__":
     init_logger()
     app.run(host='0.0.0.0', debug=False)
-

@@ -60,8 +60,8 @@ def login():
             session['token'] = token
             session['email'] = email
             resp = make_response(redirect(url_for('report_list')))
-            resp.set_cookie('XSRF-TOKEN', xsrf_token, domain=conf.IKANG_DOMAIN)
-            resp.set_cookie('workgroup_session_id', workgroup_session_id, domain=conf.IKANG_DOMAIN)
+            resp.set_cookie('XSRF-TOKEN', xsrf_token, domain=conf.MAIN_DOMAIN)
+            resp.set_cookie('workgroup_session_id', workgroup_session_id, domain=conf.MAIN_DOMAIN)
             return resp
 
         return render_template('login.html', err_msg=u'邮箱验证失败')
@@ -78,8 +78,8 @@ def logout():
     session.pop('token', None)
     session.pop('email', None)
     resp = make_response(render_template('login.html', err_msg=''))
-    resp.set_cookie('XSRF-TOKEN', '', max_age=0, expires=0, domain=conf.IKANG_DOMAIN)
-    resp.set_cookie('workgroup_session_id', '', max_age=0, expires=0, domain=conf.IKANG_DOMAIN)
+    resp.set_cookie('XSRF-TOKEN', '', max_age=0, expires=0, domain=conf.MAIN_DOMAIN)
+    resp.set_cookie('workgroup_session_id', '', max_age=0, expires=0, domain=conf.MAIN_DOMAIN)
     return resp
 
 
