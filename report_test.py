@@ -19,7 +19,7 @@ app = Flask(__name__)
 # sslify = SSLify(app)
 app.secret_key = '380fec53-b210-4864-925f-6b0da3b56268'
 
-# report_url = 'https://dashboard.health.ikang.com/views/_6/sheet0?:embed=y&:showShareOptions=false&TOKEN=YR2Sn6QLqGkb'
+# report_url = 'https://dashboard.health.cloudvision.com/views/_6/sheet0?:embed=y&:showShareOptions=false&TOKEN=YR2Sn6QLqGkb'
 
 
 def init_logger():

@@ -32,9 +32,8 @@ class AESCipher(object):
 
 
 if __name__ == '__main__':
-    plain_text = 'liutao'
+    plain_text = 'cloudvision'
     cipher = AESCipher('8888888')
     cipher_text = cipher.encrypt(plain_text)
     print 'cipher_text:', cipher_text
     assert cipher.decrypt(cipher_text) == plain_text
-

@@ -37,10 +37,7 @@ def get_reports_by_token(cnx_pool, token):
 
 if __name__ == '__main__':
     import time
-    logging.basicConfig(level=logging.DEBUG)
-    pool = MySQLConnectionPool(pool_name="tab_pool", pool_size=conf.mysql_pool_size, **conf.dbconfig)
-    st = time.time()
-    assert token_by_email(pool, 'sandy.cheng@ikang.com') == 'YR2Sn6QLqGkb'
-    assert len(get_reports_by_token(pool, 'G2n3ALiWdtg5ws')) == 2
+    # logging.basicConfig(level=logging.DEBUG)
+    # pool = MySQLConnectionPool(pool_name="tab_pool", pool_size=conf.mysql_pool_size, **conf.dbconfig)
+    # st = time.time()
     print 'I took %d ms to login' % int((time.time()-st) * 1000)
-

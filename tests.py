@@ -19,11 +19,8 @@ def mail_pop3_login(email, passwd):
 
 
 class TestCipherMailLogin(unittest.TestCase):
-
-    def test_login(self):
-        self.assertTrue(mail_pop3_login("auth@ikang.com", "Ikang@$1jk!"))
+    pass
 
 
 if __name__ == '__main__':
     unittest.main()
-

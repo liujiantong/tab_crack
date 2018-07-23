@@ -12,7 +12,7 @@ from Crypto.Cipher import PKCS1_v1_5
 import conf
 
 
-tab_server_url = "https://dashboard.health.ikang.com"
+tab_server_url = "https://dashboard.health.cloudvision.com"
 vizportal_api_url = "/vizportal/api/web/v1/"
 
 
@@ -124,4 +124,3 @@ if __name__ == '__main__':
     req_session = requests.Session()
     xsrf_token, workgroup_session_id = tab_login(req_session)
     print 'xsrf_token:{}, workgroup_session_id:{}'.format(xsrf_token, workgroup_session_id)
-

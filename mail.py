@@ -55,7 +55,5 @@ if __name__ == '__main__':
     import time
     logging.basicConfig(level=logging.DEBUG)
     st = time.time()
-    # assert smtp_login("auth@ikang.com", "Ikang@$1jk!")
-    assert pop3_login("auth@ikang.com", "Ikang@$1jk!")
+    assert pop3_login("auth@cloudvision.com", "cloudvision")
     print 'I took %d ms to login' % int((time.time()-st) * 1000)
-
